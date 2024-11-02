@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.login-bg{
+    background-image:url("../src/assets/images/bg-img.png") ;
+    background-repeat: no-repeat;
+    background-size:cover;
+}
+
+
+
+.PlayerRSWP{
+    background-color: #a3a3a3 !important;
+}
+
+
