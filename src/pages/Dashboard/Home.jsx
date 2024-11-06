@@ -2,7 +2,6 @@ import React, { lazy, Suspense, useContext, useEffect, useState} from 'react'
 import { Context } from '../../context/Context'
 import SpotifyWebApi from 'spotify-web-api-node'
 import { CLIENT_ID } from '../../hook/useEnv'
-import Loading from '../../assets/images/Loading.gif'
 
 
 const MusicLists = lazy(() => new Promise(resolve =>{
@@ -40,7 +39,7 @@ useEffect(() =>{
 },[token])
 
   return (
-    <Suspense fallback={<img className='absolute inset-0 m-auto' src={Loading} alt='Loading Img' width={100} height={100}/>}>
+    <Suspense fallback={<img className='absolute inset-0 m-auto'/>}>
     <div className='p-5'>
       <h2 className='font-bold text-[39px] text-white mb-[29px]'>Good afternoon</h2>
       <ul className='flex flex-wrap gap-4 justify-between mb-[50px]'>
