@@ -1,71 +1,66 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { lazy, Suspense, useContext, useEffect, useState} from 'react'
 import { Context } from '../../context/Context'
 import SpotifyWebApi from 'spotify-web-api-node'
-import {CLIENT_ID} from '../../hook/useEnv'
-import SpotifyWebPlayer from 'react-spotify-web-playback'
+import { CLIENT_ID } from '../../hook/useEnv'
+import Loading from '../../assets/images/Loading.gif'
+
+
+const MusicLists = lazy(() => new Promise(resolve =>{
+  return setTimeout(()=> resolve(import('../../components/MusicLists')),800)
+}))
 
 function Home() {
 const {token} = useContext(Context)
-const [tracksList, setTracksList] = useState([])
-
-const [play,setPlay] = useState([])
-const [playing,setPlaying] = useState(false)
-
 const spotifyApi = new SpotifyWebApi({
   clientId:CLIENT_ID
 })
 
- useEffect(() =>{
+const [trendMusucList, setTrendMusuic] = useState([])
+
+useEffect(() =>{
   if(!token) return;
   spotifyApi.setAccessToken(token)
  },[token])
 
-useEffect(() => {
-if(token){
-  spotifyApi.searchTracks("Xcho").then(res => {
-     setTracksList(res.body.tracks.items.map(item =>{
+useEffect(() =>{
+  if(token){
+  spotifyApi.searchAlbums("Jony").then(res => {
+    setTrendMusuic(res.body.albums.items.splice(0,6).map(item =>{
       const data = {
-         id:item.id,
-         img:item.album.images[0].url,
-         trackName:item.name,
-         artistName:item.album.artists[0].name,
-         uri:item.uri
-      }
-      return data
-     }))
+        id:item.id,
+        img:item.images[0].url,
+        trackName:item.name,
+        artistName:item.artists[0].name,
+        uri:item.uri
+     }
+     return data
+    }))
   })
-}
+  }
 },[token])
 
-function handlePLay(uri) {
-  setPlay(uri);
-  setPlaying(true);
-}
-
   return (
-    <>
-    <div className='flex overflow-x-auto justify-between p-5 gap-5'>
-      {tracksList?.map(item =>(
-        <div onClick={() => handlePLay(item.uri)} key={item.id} className='min-w-[225px] overflow-x-auto cursor-pointer p-[21px] rounded-[8px] bg-[#1c1c1c]'>
-          <img className='h-[182px] mb-[25px] rounded-[8px]'src={item.img} alt="Track img" width={"100%"} />
-          <h2 className='text-white mb-2 font-bold text-[20px]'>{item.trackName}</h2>
-          <p className='font-medium text-[18px] text-white opacity-[60%]'>{item.artistName}</p>
-        </div>
-      ))}
+    <Suspense fallback={<img className='absolute inset-0 m-auto' src={Loading} alt='Loading Img' width={100} height={100}/>}>
+    <div className='p-5'>
+      <h2 className='font-bold text-[39px] text-white mb-[29px]'>Good afternoon</h2>
+      <ul className='flex flex-wrap gap-4 justify-between mb-[50px]'>
+        {trendMusucList.map(item => (
+          <li className='flex trends-item overflow-hidden rounded-[6px] w-[48%] items-center space-x-[21px]' key={item.id}>
+            <img className='h-[82px] ' src={item.img} alt="Trend Img" width={82} height={82}/>
+              <h2 className=' text-white font-bold text-[20px] '>{item.trackName}</h2>
+          </li>
+        ))}
+      </ul>
+    <div className='space-y-[50px]'>
+    <MusicLists  artistName={"Xcho"}/>
+    <MusicLists  artistName={"Jony"}/>
+    <MusicLists  artistName={"Scriptonit"}/>
+    <MusicLists  artistName={"Miyagi"}/>
+  
     </div>
-    <div className='absolute bottom-0 w-full'>
-    <SpotifyWebPlayer
-      token={token}
-      uris={play ?[play] : []}
-      play={playing}
-      callback={(e) =>{
-          if(e.isPlaying){
-            setPlaying(false)
-          }
-      }}
-    />
-  </div>
-    </>
+    </div>
+    </Suspense>
+
   )
 }
 
