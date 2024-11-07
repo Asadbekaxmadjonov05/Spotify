@@ -9,9 +9,11 @@ import SpotifyWebPlayer from 'react-spotify-web-playback'
 
 
 function Dashboard({code}) {
+  console.log(code);
+  
   const accessToken = useAuth(code)
   const {token,setToken,play,setPlaying,playing} = useContext(Context)
-
+  
 useEffect(() =>{
   setToken(accessToken)
 },[accessToken])

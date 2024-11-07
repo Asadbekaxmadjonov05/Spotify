@@ -18,6 +18,7 @@ const [trendMusucList, setTrendMusuic] = useState([])
 
 useEffect(() =>{
   if(!token) return;
+  // qaren hozir man run qivoman single page yozilgan ln hatolari bor man topomayamande shun korib berin a
   spotifyApi.setAccessToken(token)
  },[token])
 
@@ -51,10 +52,10 @@ useEffect(() =>{
         ))}
       </ul>
     <div className='space-y-[50px]'>
-    <MusicLists  artistName={"Xcho"}/>
-    <MusicLists  artistName={"Jony"}/>
-    <MusicLists  artistName={"Scriptonit"}/>
-    <MusicLists  artistName={"Miyagi"}/>
+    <MusicLists  artistName={"Botir Qodirov"}/>
+    <MusicLists  artistName={"Shohjahon Jorayev"}/>
+    <MusicLists  artistName={"Sherali Jo'rayev"}/>
+    <MusicLists  artistName={"Zohishoh Jo'rayev"}/>
   
     </div>
     </div>

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import SpotifyWebApi from 'spotify-web-api-node'
 import { CLIENT_ID } from '../../hook/useEnv'
 import { Context } from '../../context/Context'
-import { LikeInner } from '../../assets/icons'
+// import { LikeInner } from '../../assets/icons'
 import LoadingChart from '../../components/LoadingChart/LoadingChart'
 
 function Single() {
@@ -13,7 +13,7 @@ function Single() {
     clientId:CLIENT_ID
   })    
   useEffect(() =>{
-    if(!token) return;
+    if(!token) return;    
     spotifyApi.setAccessToken(token)
    },[token])
 
